@@ -17,15 +17,16 @@ module.exports = {
     }
 
     if (!token) {
-      throw new AuthenticationError("no authentication token provided!");
+      // throw new AuthenticationError("no authentication token provided!");
+      return req;
     }
 
     // verify token and get user data out of it
     try {
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
-      return { user: data };
+      return { user: data, ...req };
     } catch {
-      throw new AuthenticationError("invalid authentication token provided!");
+      // throw new AuthenticationError("invalid authentication token provided!");
     }
   },
   signToken: function ({ username, email, _id }) {
